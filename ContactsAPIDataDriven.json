@@ -1,0 +1,168 @@
+{
+	"info": {
+		"_postman_id": "279a8fee-88b2-48e8-a112-d95e5eb2bd38",
+		"name": "ContactsAPIDataDriven",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "42767951"
+	},
+	"item": [
+		{
+			"name": "1.Login contacts",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const logresponse = pm.response.json();\r",
+							"const tokenid = logresponse.token;\r",
+							"console.log(\"The token id is: \" +tokenid);\r",
+							"pm.collectionVariables.set(\"token_ID\", tokenid);\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\" :\"{{username}}\",\r\n    \"password\" : \"{{password}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/users/login",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"users",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "2. post a user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"pm.test(\"contacts creation\", function () {\r",
+							"    const contresponse = pm.response.json();\r",
+							"    pm.expect(contresponse.firstName).to.eql(pm.iterationData.get(\"firstname\"));\r",
+							"    pm.expect(contresponse.lastName).to.eql(pm.iterationData.get(\"lastname\"));\r",
+							"    pm.expect(contresponse.birthdate).to.eql(pm.iterationData.get(\"birthdate\"));\r",
+							"    pm.expect(contresponse.phone).to.have.string(pm.iterationData.get(\"phone\"));\r",
+							"    pm.expect(contresponse.city).to.eql(pm.iterationData.get(\"city\"));\r",
+							"    pm.expect(contresponse.country).to.eql(pm.iterationData.get(\"country\"));\r",
+							"    pm.expect(contresponse.postalCode).to.have.string(pm.iterationData.get(\"postalcode\"));\r",
+							"    pm.expect(contresponse.stateProvince).to.eql(pm.iterationData.get(\"state\"));\r",
+							"     //fetch the email from request body (the random email that is generated)\r",
+							"    const rawbody = pm.request.body.raw;\r",
+							"    const bodyParsed = JSON.parse(rawbody);\r",
+							"    const email = bodyParsed.email;\r",
+							"    console.log(\"The email is: \" +email);\r",
+							"    // pm.expect(contresponse.email).to.eql(email);\r",
+							"    \r",
+							"});\r",
+							"\r",
+							"const response = pm.response.json();\r",
+							"const userid = response._id;\r",
+							"console.log(\"the user id is: \" +userid);\r",
+							"pm.variables.set(\"UserID\", userid);\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token_ID}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstName\": \"{{firstname}}\",\r\n    \"lastName\": \"{{lastname}}\",\r\n    \"birthdate\": \"{{birthdate}}\",\r\n    \"email\": \"mytest_{{$randomEmail}}\",\r\n    \"phone\": \"{{phone}}\",\r\n    \"city\": \"{{city}}\",\r\n    \"country\": \"{{country}}\",\r\n    \"postalCode\": \"{{postalcode}}\",\r\n    \"stateProvince\": \"{{state}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/contacts",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"contacts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "New Request",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token_ID}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{URL}}/contacts/{{UserID}}",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"contacts",
+						"{{UserID}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "token_ID",
+			"value": ""
+		}
+	]
+}

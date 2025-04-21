@@ -1,0 +1,411 @@
+{
+	"info": {
+		"_postman_id": "4a76c0ea-c558-450a-8c0c-ae2790af0535",
+		"name": "BookingAPI",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "42767951"
+	},
+	"item": [
+		{
+			"name": "create token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// const bookresponse = pm.response.json();\r",
+							"// const token_id = bookresponse.token;\r",
+							"// console.log(\"The token is: \" +token_id);\r",
+							"// pm.variables.set(\"tokenID\", token_id);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"{{username}}\",\r\n    \"password\": \"{{password}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/auth",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"auth"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get all booking",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/booking",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"booking"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create a booking",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const response = pm.response.json();\r",
+							"const booking_id = response.bookingid;\r",
+							"console.log(\"The booking id is: \" +booking_id);\r",
+							"pm.variables.set(\"bookingID\", booking_id);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstname\": \"daisy\",\r\n    \"lastname\": \"sarah\",\r\n    \"totalprice\": 111,\r\n    \"depositpaid\": true,\r\n    \"bookingdates\": {\r\n        \"checkin\": \"2018-01-01\",\r\n        \"checkout\": \"2019-01-01\"\r\n    },\r\n    \"additionalneeds\": \"Breakfast\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/booking",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"booking"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get booking by id",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.sendRequest({\r",
+							"    method: 'POST',\r",
+							"    url: pm.environment.get(\"baseURL\")+'/booking',\r",
+							"    header:\r",
+							"    {\r",
+							"        'Content-Type' : 'application/json'\r",
+							"    },\r",
+							"    body:\r",
+							"    {\r",
+							"        mode:'raw',\r",
+							"        \r",
+							"        raw: {\r",
+							"           \"firstname\": \"daisy\",\r",
+							"           \"lastname\": \"sarah\",\r",
+							"           \"totalprice\": 111,\r",
+							"           \"depositpaid\": true,\r",
+							"           \"bookingdates\": {\r",
+							"           \"checkin\": \"2018-01-01\",\r",
+							"           \"checkout\": \"2019-01-01\"\r",
+							"            },\r",
+							"        \"additionalneeds\": \"Breakfast\"\r",
+							"        }\r",
+							"    }\r",
+							"    }, function(error,response)\r",
+							"    {\r",
+							"        if(error){\r",
+							"            console.log(error)\r",
+							"        }\r",
+							"        else{\r",
+							"            const responseBody = JSON.parse(response.text());\r",
+							"            const prebookingid = responseBody.bookingid;\r",
+							"            console.log(\"the new bookind id is: \" +prebookingid);\r",
+							"            pm.variables.set(\"latestbookingID\", prebookingid);\r",
+							"            }\r",
+							"  });"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/booking/{{latestbookingID}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"booking",
+						"{{latestbookingID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update a booking",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// //generate a token using auth API and fetch the tokenID from response\r",
+							"// pm.sendRequest({\r",
+							"//     method: 'POST',\r",
+							"//     url: pm.environment.get(\"baseURL\")+'/auth',\r",
+							"//     header:\r",
+							"//     {\r",
+							"//         'Content-Type' : 'application/json'\r",
+							"//     },\r",
+							"//     body:\r",
+							"//     {\r",
+							"//         mode:'raw',\r",
+							"//         //javascript object to JSON\r",
+							"//         raw:  JSON.stringify({\r",
+							"//           \"username\": pm.environment.get(\"username\"),\r",
+							"//           \"password\": pm.environment.get(\"password\")\r",
+							"//         })\r",
+							"//     }\r",
+							"// },function(error, response)\r",
+							"//     {\r",
+							"//         if(error)\r",
+							"//         {\r",
+							"//             console.log(error);\r",
+							"//         }\r",
+							"//         else\r",
+							"//         {\r",
+							"//             const responseBody = JSON.parse(response.text());\r",
+							"//             const token_id = responseBody.token;\r",
+							"//             console.log(\"the new token is: \" +token_id);\r",
+							"//             pm.variables.set(\"newtokenID\", token_id);\r",
+							"//         }\r",
+							"//  });\r",
+							"   \r",
+							"\r",
+							"    \r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Cookie",
+						"value": "token={{newtokenID}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstname\": \"lilly\",\r\n    \"lastname\": \"daisy\",\r\n    \"totalprice\": 111,\r\n    \"depositpaid\": true,\r\n    \"bookingdates\": {\r\n        \"checkin\": \"2018-01-01\",\r\n        \"checkout\": \"2019-01-01\"\r\n    },\r\n    \"additionalneeds\": \"Dinner\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/booking/{{bookingID}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"booking",
+						"{{bookingID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete a booking by ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// //generate a token using auth API and fetch the tokenID from response\r",
+							"// pm.sendRequest({\r",
+							"//     method: 'POST',\r",
+							"//     url: pm.environment.get(\"baseURL\")+'/auth',\r",
+							"//     header:\r",
+							"//     {\r",
+							"//         'Content-Type' : 'application/json'\r",
+							"//     },\r",
+							"//     body:\r",
+							"//     {\r",
+							"//         mode:'raw',\r",
+							"//         //javascript object to JSON\r",
+							"//         raw:  JSON.stringify({\r",
+							"//           \"username\": pm.environment.get(\"username\"),\r",
+							"//           \"password\": pm.environment.get(\"password\")\r",
+							"//         })\r",
+							"//     }\r",
+							"// },function(error, response)\r",
+							"//     {\r",
+							"//         if(error)\r",
+							"//         {\r",
+							"//             console.log(error);\r",
+							"//         }\r",
+							"//         else\r",
+							"//         {\r",
+							"//             const responseBody = JSON.parse(response.text());\r",
+							"//             const token_id = responseBody.token;\r",
+							"//             console.log(\"the new token is: \" +token_id);\r",
+							"//             pm.variables.set(\"newtokenID\", token_id);\r",
+							"//         }\r",
+							"//  });\r",
+							"   "
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Cookie",
+						"value": "token={{newtokenID}}"
+					}
+				],
+				"url": {
+					"raw": "{{baseURL}}/booking/{{bookingID}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"booking",
+						"{{bookingID}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					"if(pm.info.requestName == 'update a booking' || pm.info.requestName == 'Delete a booking by ID')\r",
+					"{\r",
+					"    //generate a token using auth API and fetch the tokenID from response\r",
+					"pm.sendRequest({\r",
+					"    method: 'POST',\r",
+					"    url: pm.environment.get(\"baseURL\")+'/auth',\r",
+					"    header:\r",
+					"    {\r",
+					"        'Content-Type' : 'application/json'\r",
+					"    },\r",
+					"    body:\r",
+					"    {\r",
+					"        mode:'raw',\r",
+					"        //javascript object to JSON\r",
+					"        raw:  JSON.stringify({\r",
+					"          \"username\": pm.environment.get(\"username\"),\r",
+					"          \"password\": pm.environment.get(\"password\")\r",
+					"        })\r",
+					"    }\r",
+					"},function(error, response)\r",
+					"    {\r",
+					"        if(error)\r",
+					"        {\r",
+					"            console.log(error);\r",
+					"        }\r",
+					"        else\r",
+					"        {\r",
+					"            //json to javascript\r",
+					"            const responseBody = JSON.parse(response.text());\r",
+					"            const token_id = responseBody.token;\r",
+					"            console.log(\"the new token is: \" +token_id);\r",
+					"            pm.variables.set(\"newtokenID\", token_id);\r",
+					"        }\r",
+					" });\r",
+					"   \r",
+					"\r",
+					"    \r",
+					"\r",
+					"\r",
+					"}"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

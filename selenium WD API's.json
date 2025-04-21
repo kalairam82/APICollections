@@ -1,0 +1,253 @@
+{
+	"info": {
+		"_postman_id": "0f7fe5df-9321-4b23-8a29-0c753ea2abcb",
+		"name": "selenium WD API's",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "42767951"
+	},
+	"item": [
+		{
+			"name": "Launch Browser",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json; charset=utf-8",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"capabilities\":{\r\n        \"alwaysMatch\":{\r\n            \"browserName\": \"chrome\"\r\n        }\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4444/session",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4444",
+					"path": [
+						"session"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Enter URL",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json; charset=utf-8",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "\r\n{\r\n  \"url\": \"https://www.google.com\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4444/session/f6017a771321059e9321472b521d5f95/url",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4444",
+					"path": [
+						"session",
+						"f6017a771321059e9321472b521d5f95",
+						"url"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Find Element",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json; charset=utf-8",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\r\n \"using\": \"xpath\",\r\n\r\n\"value\": \"//textarea[@name='q']\"\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4444/session/f6017a771321059e9321472b521d5f95/element",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4444",
+					"path": [
+						"session",
+						"f6017a771321059e9321472b521d5f95",
+						"element"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Send Keys",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json; charset=utf-8",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\r\n \"text\": \"Hello, Selenium\"\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4444/session/f6017a771321059e9321472b521d5f95/element/f.D2AB40C3DE158AF265FE38D44EDDDCF4.d.DCD114344E035D28BF5E9047531FFB90.e.1/value",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4444",
+					"path": [
+						"session",
+						"f6017a771321059e9321472b521d5f95",
+						"element",
+						"f.D2AB40C3DE158AF265FE38D44EDDDCF4.d.DCD114344E035D28BF5E9047531FFB90.e.1",
+						"value"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Find Link",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json; charset=utf-8",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\r\n \"using\": \"link text\",\r\n\r\n\"value\": \"About\"\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4444/session/f6017a771321059e9321472b521d5f95/element",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4444",
+					"path": [
+						"session",
+						"f6017a771321059e9321472b521d5f95",
+						"element"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Click on Element",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json; charset=utf-8",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4444/session/f6017a771321059e9321472b521d5f95/element/f.D2AB40C3DE158AF265FE38D44EDDDCF4.d.DCD114344E035D28BF5E9047531FFB90.e.21/click",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4444",
+					"path": [
+						"session",
+						"f6017a771321059e9321472b521d5f95",
+						"element",
+						"f.D2AB40C3DE158AF265FE38D44EDDDCF4.d.DCD114344E035D28BF5E9047531FFB90.e.21",
+						"click"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "close browser",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4444/session/f6017a771321059e9321472b521d5f95",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4444",
+					"path": [
+						"session",
+						"f6017a771321059e9321472b521d5f95"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

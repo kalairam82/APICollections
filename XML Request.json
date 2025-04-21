@@ -1,0 +1,157 @@
+{
+	"info": {
+		"_postman_id": "c6494a5c-2c1d-4a46-a77c-397e3ae4c459",
+		"name": "XML Request",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "42767951"
+	},
+	"item": [
+		{
+			"name": "1.send xml request body using script",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"let options = {\r",
+							"      'method': 'POST',\r",
+							"      'url':'http://httpbin.org/post',\r",
+							"      'header':{\r",
+							"        'Content-Type': 'application-xml'\r",
+							"      },\r",
+							"      body:`<?xml version=\\\"1.0\\\"?>\r",
+							"<items>\r",
+							"    <item>\r",
+							"        <full_name>Clifton Jaskolski</full_name>\r",
+							"        <phone>+1 787-347-2484</phone>\r",
+							"        <email>clifton75@hotmail.com</email>\r",
+							"        <currency>$ 7,566,419</currency>\r",
+							"        <number>8318787</number>\r",
+							"        <price>{{price}}</price>\r",
+							"    </item>\r",
+							"    <item>\r",
+							"        <full_name>Kellie Thiel</full_name>\r",
+							"        <phone>+1 517-566-8914</phone>\r",
+							"        <email>kellie.thiel@hotmail.com</email>\r",
+							"        <currency>$ 2,094,157</currency>\r",
+							"        <number>8483211</number>\r",
+							"        <price>{{price}}</price>\r",
+							"    </item>\r",
+							"    <item>\r",
+							"        <full_name>Laurence Schimmel</full_name>\r",
+							"        <phone>+1 332-103-4923</phone>\r",
+							"        <email>laurence41@gmail.com</email>\r",
+							"        <currency>$ 7,285,029</currency>\r",
+							"        <number>3996718</number>\r",
+							"        <price>{{price}}</price>\r",
+							"    </item>\r",
+							"</items>`\r",
+							"\r",
+							"};\r",
+							"\r",
+							"const priceData = pm.iterationData.get('price');\r",
+							"console.log(priceData);\r",
+							"options.body = options.body.replace(/{{price}}/g, priceData);\r",
+							"\r",
+							"pm.sendRequest(options, function(error, response){\r",
+							"    if(error){\r",
+							"        console.log(error);\r",
+							"    }\r",
+							"    else{\r",
+							"        console.log(response.status);\r",
+							"    }\r",
+							"\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "xml request",
+					"options": {
+						"raw": {
+							"language": "text"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://httpbin.org/post",
+					"protocol": "http",
+					"host": [
+						"httpbin",
+						"org"
+					],
+					"path": [
+						"post"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Users",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//Xml2js library is not available by default in postman, so we need to add it manually\r",
+							"const xml2js = require('xml2js');\r",
+							"const xmlresponse = pm.response.text();\r",
+							"\r",
+							"//parsing\r",
+							"xml2js.parseString(xmlresponse, function(error, response) {\r",
+							"    if (error) {\r",
+							"        console.log(\"Error in parsing xml\", error);\r",
+							"    } else {\r",
+							"        console.log(\"Response after parsing\", response); //accessing the array of objects\r",
+							"    }\r",
+							"    pm.test(\"Check the total no of users\", function() {\r",
+							"        pm.expect(response.objects.object.length).to.eql(10);\r",
+							"    });\r",
+							"    pm.test(\"Check the userid\", function() {\r",
+							"        const userIDs = response.objects.object.map(e => e.id[0]._);\r",
+							"        console.log(\"the user id's are: \" + userIDs);\r",
+							"        pm.expect(userIDs.length).to.eql(10);\r",
+							"    });\r",
+							"      pm.test(\"Check the username\", function() {\r",
+							"        const username = response.objects.object.map(e => e.name[0]);\r",
+							"        console.log(\"the user id's are: \" + username);\r",
+							"        pm.expect(username.length).to.eql(10);\r",
+							"    });\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://gorest.co.in/public/v2/users.xml",
+					"protocol": "https",
+					"host": [
+						"gorest",
+						"co",
+						"in"
+					],
+					"path": [
+						"public",
+						"v2",
+						"users.xml"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

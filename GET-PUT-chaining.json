@@ -1,0 +1,125 @@
+{
+	"info": {
+		"_postman_id": "8eeef410-e817-472f-ae1d-bdca42310873",
+		"name": "GET-PUT-chaining",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "42767951"
+	},
+	"item": [
+		{
+			"name": "get all users",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const goresponse = pm.response.json();\r",
+							"\r",
+							"const user_ids =  goresponse.map(user => user.id);//map will return array of user id's\r",
+							"console.log(\"The user id's are: \" + user_ids);\r",
+							"pm.variables.set(\"userIDs\" ,user_ids);\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/public/v2/users",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"public",
+						"v2",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update all users",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const userids = pm.variables.get(\"userIDs\");//this is an array\r",
+							"\r",
+							"pm.variables.set(\"singleUserID\", userids.shift());\r",
+							"             \r",
+							"if(Array.isArray(userids) && userids.length>0)\r",
+							"{\r",
+							"   pm.execution.setNextRequest(\"Update all users\");\r",
+							"}\r",
+							"else\r",
+							"{\r",
+							"    console.log(\"All the user got updated\")\r",
+							"}\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{tokenID}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"My Test\",\r\n    \"status\":\"active\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/public/v2/users/{{singleUserID}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"public",
+						"v2",
+						"users",
+						"{{singleUserID}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

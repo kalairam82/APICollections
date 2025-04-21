@@ -1,0 +1,131 @@
+{
+	"info": {
+		"_postman_id": "a326bdc1-f9d8-4bbb-97c8-9ae9fe0a1f9a",
+		"name": "QueryParam",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "42767951"
+	},
+	"item": [
+		{
+			"name": "QueryParam-gorest",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer 0b6c59a9a4eb520b84fe532ad7fba6ccaa770bb415f25128c370815dba2803a2"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://gorest.co.in/public/v2/users?name=kalai&status=active",
+					"protocol": "https",
+					"host": [
+						"gorest",
+						"co",
+						"in"
+					],
+					"path": [
+						"public",
+						"v2",
+						"users"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "kalai"
+						},
+						{
+							"key": "status",
+							"value": "active"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PathParam-Ergast",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://ergast.com/api/f1/:year/:driver",
+					"protocol": "https",
+					"host": [
+						"ergast",
+						"com"
+					],
+					"path": [
+						"api",
+						"f1",
+						":year",
+						":driver"
+					],
+					"variable": [
+						{
+							"key": "year",
+							"value": "2010"
+						},
+						{
+							"key": "driver",
+							"value": "drivers.json"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "QueryParam-opencart",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://naveenautomationlabs.com/opencart/index.php?route=account/register",
+					"protocol": "https",
+					"host": [
+						"naveenautomationlabs",
+						"com"
+					],
+					"path": [
+						"opencart",
+						"index.php"
+					],
+					"query": [
+						{
+							"key": "route",
+							"value": "account/register"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

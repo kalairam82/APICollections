@@ -1,0 +1,110 @@
+{
+	"info": {
+		"_postman_id": "80fee984-c73d-4e36-ad3a-a2ce2b79a984",
+		"name": "ProductAPI",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "42767951"
+	},
+	"item": [
+		{
+			"name": "Get Products",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const resp = pm.response.json();\r",
+							"const Rating = [];\r",
+							"const details=[];\r",
+							"const rate= [];\r",
+							"const count=[];\r",
+							"const rates = resp.map(rate => rate.rating);\r",
+							"console.log(rates);\r",
+							"// Using for loop to push rating values into Rating array.\r",
+							"for (let i = 0; i < rates.length; i++) {\r",
+							"    rate.push(rates[i].rate);\r",
+							"    count.push(rates[i].count);\r",
+							"    }\r",
+							"console.log(rate);\r",
+							"console.log(count);\r",
+							"// Using forEach loop to push rating values into Rating array.\r",
+							"resp.forEach(item => {\r",
+							"    Rating.push(item.rating);\r",
+							"});\r",
+							"console.log(Rating);\r",
+							"\r",
+							"resp.forEach(item => { item.rating\r",
+							"        details.push(item.id);\r",
+							"        details.push(item.rating.rate);\r",
+							"        details.push(item.rating.count);\r",
+							"\r",
+							"        });\r",
+							"\r",
+							"console.log(details);\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://fakestoreapi.com/products",
+					"protocol": "https",
+					"host": [
+						"fakestoreapi",
+						"com"
+					],
+					"path": [
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Cart",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://fakestoreapi.com/carts",
+					"protocol": "https",
+					"host": [
+						"fakestoreapi",
+						"com"
+					],
+					"path": [
+						"carts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Users",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://fakestoreapi.com/carts",
+					"protocol": "https",
+					"host": [
+						"fakestoreapi",
+						"com"
+					],
+					"path": [
+						"carts"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -1,0 +1,33 @@
+{
+	"id": "b6f4a5a3-a882-4977-b126-2d9747396e2c",
+	"name": "ContactsEnv",
+	"values": [
+		{
+			"key": "URL",
+			"value": "https://thinking-tester-contact-list.herokuapp.com",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "password",
+			"value": "Badri2011@",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "username",
+			"value": "kalairam82@gmail.com",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "requestJSON",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		}
+	],
+	"_postman_variable_scope": "environment",
+	"_postman_exported_at": "2025-04-14T16:08:33.053Z",
+	"_postman_exported_using": "Postman/11.40.6"
+}

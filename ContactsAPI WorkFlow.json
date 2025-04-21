@@ -1,0 +1,359 @@
+{
+	"info": {
+		"_postman_id": "2e6d1c03-50cc-4569-8a0a-e1abdb354d76",
+		"name": "ContactsAPI WorkFlow",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "42767951"
+	},
+	"item": [
+		{
+			"name": "login user-get token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const response = pm.response.json();\r",
+							"const tokenID = response.token;\r",
+							"console.log(\"token ID is:\" +tokenID);\r",
+							"pm.collectionVariables.set(\"MytokenID\" , tokenID);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"{{username}}\",\r\n    \"password\": \"{{password}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/users/login",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"users",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET All Contacts",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var template = `\r",
+							"<style type=\"text/css\">\r",
+							"    .tftable {font-size:14px;color:#333333;width:100%;border-width: 1px;border-color: #87ceeb;border-collapse: collapse;}\r",
+							"    .tftable th {font-size:18px;background-color:#87ceeb;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;text-align:left;}\r",
+							"    .tftable tr {background-color:#ffffff;}\r",
+							"    .tftable td {font-size:14px;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;}\r",
+							"    .tftable tr:hover {background-color:#e0ffff;}\r",
+							"</style>\r",
+							"\r",
+							"<table class=\"tftable\" border=\"1\">\r",
+							"    <tr>\r",
+							"        <th>ID</th>\r",
+							"        <th>First Name</th>\r",
+							"        <th>Last Name</th>\r",
+							"        <th>Birthdate</th>\r",
+							"        <th>Email</th>\r",
+							"        <th>Phone</th>\r",
+							"        <th>Street 1</th>\r",
+							"        <th>City</th>\r",
+							"        <th>State/Province</th>\r",
+							"        <th>Postal Code</th>\r",
+							"        <th>Country</th>\r",
+							"        <th>Owner</th>\r",
+							"        <th>Version</th>\r",
+							"        <th>Street 2</th>\r",
+							"    </tr>\r",
+							"    \r",
+							"    {{#each response}}\r",
+							"        <tr id=row_{{@key}}>\r",
+							"            <td>{{_id}}</td>\r",
+							"            <td>{{firstName}}</td>\r",
+							"            <td>{{lastName}}</td>\r",
+							"            <td>{{birthdate}}</td>\r",
+							"            <td>{{email}}</td>\r",
+							"            <td>{{phone}}</td>\r",
+							"            <td>{{street1}}</td>\r",
+							"            <td>{{city}}</td>\r",
+							"            <td>{{stateProvince}}</td>\r",
+							"            <td>{{postalCode}}</td>\r",
+							"            <td>{{country}}</td>\r",
+							"            <td>{{owner}}</td>\r",
+							"            <td>{{__v}}</td>\r",
+							"            <td>{{street2}}</td>\r",
+							"        </tr>\r",
+							"    {{/each}}\r",
+							"</table>\r",
+							"`;\r",
+							"\r",
+							"function constructVisualizerPayload() {\r",
+							"    return {response: pm.response.json()}\r",
+							"}\r",
+							"\r",
+							"pm.visualizer.set(template, constructVisualizerPayload());"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{MytokenID}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{URL}}/contacts",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"contacts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create a contact",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const response =pm.response.json();\r",
+							"const id = response._id;\r",
+							"console.log(id);\r",
+							"pm.environment.set(\"newid\", id);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{MytokenID}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstName\": \"cypress\",\r\n    \"lastName\": \"test123\",\r\n    \"birthdate\": \"2007/01/03\",\r\n    \"email\": \"mytest@selenium.com\",\r\n    \"phone\": \"6454646558\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/contacts",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"contacts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get User By ID",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{MytokenID}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{URL}}/contacts/{{newid}}",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"contacts",
+						"{{newid}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update a user",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{MytokenID}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstName\": \"selenium\",\r\n    \"lastName\": \"test\",\r\n    \"birthdate\": \"1997/01/11\",\r\n    \"email\": \"1234@selenium.com\",\r\n    \"phone\": \"2417483489\",\r\n    \"city\": \"frisco\",\r\n    \"country\": \"tarrant\",\r\n    \"postalCode\": \"43473\",\r\n    \"stateProvince\": \"Texas\",\r\n    \"street1\": \"123 street1\",\r\n    \"street2\": \"abc country\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/contacts/{{newid}}",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"contacts",
+						"{{newid}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "patch a user",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{MytokenID}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"street2\": \"44 street\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/contacts/{{newid}}",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"contacts",
+						"{{newid}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete a user",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{MytokenID}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{URL}}/contacts/{{newid}}",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"contacts",
+						"{{newid}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Logout user",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{MytokenID}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{URL}}/users/logout",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"users",
+						"logout"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "MytokenID",
+			"value": ""
+		}
+	]
+}

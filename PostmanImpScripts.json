@@ -1,0 +1,587 @@
+{
+	"info": {
+		"_postman_id": "04205841-6da5-43d7-ad91-65ed0558879d",
+		"name": "PostmanImpScripts",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "42767951"
+	},
+	"item": [
+		{
+			"name": "1.AddHeaders",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"//1)single Header - key-value (pair)//pm.request.headers.add\r",
+							"// pm.request.headers.add({\r",
+							"//     key : \"name\",\r",
+							"//     value: \"daisy\"\r",
+							"// });\r",
+							"\r",
+							"//2).Multiple Headers\r",
+							"const Headers =[\r",
+							"    { key: 'Chrome', value:'133'},\r",
+							"    { key: 'Edge', value:'134'},\r",
+							"    { key: 'FireFox', value:'135'}\r",
+							"]\r",
+							"Headers.forEach(head => pm.request.addHeader(head));"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://gorest.co.in/public/v2/users",
+					"protocol": "https",
+					"host": [
+						"gorest",
+						"co",
+						"in"
+					],
+					"path": [
+						"public",
+						"v2",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "2.Remove  Header",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.request.removeHeader('NewHeader')"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "NewHeader",
+						"value": "MyTest",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://gorest.co.in/public/v2/users",
+					"protocol": "https",
+					"host": [
+						"gorest",
+						"co",
+						"in"
+					],
+					"path": [
+						"public",
+						"v2",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "3.Update a Header",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.request.upsertHeader(\r",
+							"    {\r",
+							"        key: \"Authorization\",\r",
+							"        value:\"Bearer 0b6c59a9a4eb520b84fe532ad7fba6ccaa770bb415f25128c370815dba2803a2\"\r",
+							"    }\r",
+							")"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://gorest.co.in/public/v2/users",
+					"protocol": "https",
+					"host": [
+						"gorest",
+						"co",
+						"in"
+					],
+					"path": [
+						"public",
+						"v2",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "4.Parse HTML response using Cheerio API",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const cheerio = require('cheerio');\r",
+							"\r",
+							"pm.test(\"checking the HTML body contains internet\", function(){\r",
+							"    pm.expect(pm.response.text()).to.include(\"The Internet\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"check the html body contains login form\", function(){\r",
+							"   const response = cheerio.load(pm.response.text());\r",
+							"   pm.expect(response('form[name=\"login\"]').length).to.eql(1);\r",
+							"   const loginform = response('form[name=\"login\"]');\r",
+							"   console.log(\"The loginform\" +loginform);\r",
+							"   const attrmethod = loginform.attr(\"method\");\r",
+							"   console.log(\"prinitng the attribute method: \" +attrmethod);\r",
+							"   loginform.find('#username')\r",
+							"   pm.expect(loginform.find('#username').length).to.be.eql(1);\r",
+							"   pm.expect(loginform.find('#password').length).to.be.eql(1);\r",
+							"\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://the-internet.herokuapp.com/login",
+					"protocol": "https",
+					"host": [
+						"the-internet",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "5.Add a delay before response",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"setTimeout(() => {}, 5000);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://gorest.co.in/public/v2/users",
+					"protocol": "https",
+					"host": [
+						"gorest",
+						"co",
+						"in"
+					],
+					"path": [
+						"public",
+						"v2",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "6.Create Multiple users",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"//javascript  to JSON use JSON.stringify\r",
+							"pm.environment.set(\"requestJSON\", JSON.stringify(pm.iterationData.toObject()));"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{{requestJSON}}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://httpbin.org/post",
+					"protocol": "http",
+					"host": [
+						"httpbin",
+						"org"
+					],
+					"path": [
+						"post"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "7.Add a Request body dynamically with random email",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"function getRandomString()\r",
+							"{\r",
+							"    return Math.random().toString(36).substring(2);\r",
+							"}\r",
+							"\r",
+							"const emailID = \"mytest_\"+getRandomString()+\"@test.com\";\r",
+							"console.log(emailID);\r",
+							"const names =\"Test\"+getRandomString();\r",
+							"console.log(names);\r",
+							"\r",
+							"const rawbody = pm.request.body.raw;\r",
+							"const requestbody = JSON.parse(rawbody);\r",
+							"console.log(requestbody);\r",
+							"requestbody.email = emailID;\r",
+							"requestbody.name = names;\r",
+							"console.log(requestbody)\r",
+							"pm.request.body.raw = requestbody;\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer 0b6c59a9a4eb520b84fe532ad7fba6ccaa770bb415f25128c370815dba2803a2",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"gender\": \"female\",\r\n    \"status\": \"active\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://gorest.co.in/public/v2/users",
+					"protocol": "https",
+					"host": [
+						"gorest",
+						"co",
+						"in"
+					],
+					"path": [
+						"public",
+						"v2",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "8.Fetch URL from response and use it in API call",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const resp = pm.response.json();\r",
+							"const urldata = resp.json.urls;\r",
+							"console.log(urldata);\r",
+							"\r",
+							"Object.keys(urldata).forEach(e =>\r",
+							"{\r",
+							"pm.test(\"url function\", function()\r",
+							"            {\r",
+							"pm.sendRequest({\r",
+							"    'url': urldata[e],\r",
+							"   'method': 'GET'\r",
+							"\r",
+							"              } , function(err, response)  {\r",
+							"        if(err)\r",
+							"        {\r",
+							"            console.log(\"Error Response\");\r",
+							"            \r",
+							"        }\r",
+							"        else\r",
+							"        {\r",
+							"          console.log(response.code);\r",
+							"          //pm.expect(response.code).to.eql(200);\r",
+							"          pm.test(\"response code\", function()\r",
+							"          {\r",
+							"                pm.expect(response.code).to.eql(200);\r",
+							"          });\r",
+							"          console.log(response.text());\r",
+							"        }\r",
+							"    \r",
+							"\r",
+							"                                      })\r",
+							"               });\r",
+							"});\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"productname\" : \"macbookpro\",\r\n\"urls\":\r\n{\r\n\"u1\" : \"https://reqres.in/api/users?page=2\",\r\n\"u2\" : \"https://reqres.in/api/users/2\",\r\n\"u3\" : \"https://reqres.in/api/unknown\",\r\n\"u4\" : \"https://gorest.co.in/public/v2/users\"\r\n}\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://httpbin.org/post",
+					"protocol": "http",
+					"host": [
+						"httpbin",
+						"org"
+					],
+					"path": [
+						"post"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "9.GET data from JSON array and Assert",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const response = pm.response.json();\r",
+							"const filtersData = response.json.filters;\r",
+							"console.log(\"filters data\" , filtersData);\r",
+							"\r",
+							"const countryData = filtersData.find(e =>e.name == 'COUNTRY');\r",
+							"const vendorData = filtersData.find(e => e.name == 'VENDOR');\r",
+							"const manuData = filtersData.find(e => e.name =='MANUFACTURER');\r",
+							"console.log(countryData);\r",
+							"console.log(vendorData);\r",
+							"console.log(manuData);\r",
+							"pm.test(\"country data test\" , function()\r",
+							"{\r",
+							"    pm.expect(countryData).to.be.exist;\r",
+							"   pm.expect(countryData.isAllowed).to.be.true;\r",
+							"   pm.expect(countryData.name).to.be.eql('COUNTRY');\r",
+							"   pm.expect(countryData.id).to.be.eql(102);\r",
+							"   pm.expect(filtersData).to.be.an('array');\r",
+							" \r",
+							"});\r",
+							"\r",
+							"pm.test(\"vendor data test\", function () \r",
+							"{\r",
+							"    pm.expect(vendorData).to.be.exist;\r",
+							"    pm.expect(vendorData.isAllowed).to.be.false;\r",
+							"    pm.expect(vendorData.name).to.have.string('VENDOR');\r",
+							"    pm.expect(vendorData.id).to.be.eql(101);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"manu data test\", function () \r",
+							"{\r",
+							"    pm.expect(manuData).to.be.exist;\r",
+							"    pm.expect(manuData.name).to.have.string('MANUFACTURER');\r",
+							"    pm.expect(manuData.id).to.be.eql(103);\r",
+							"    pm.expect(manuData.isAllowed).to.be.false;\r",
+							"\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": " {\r\n        \"companyId\": 10102,\r\n        \"regionId\": 36555,\r\n        \"filters\": [\r\n            {\r\n                \"id\": 101,\r\n                \"name\": \"VENDOR\",\r\n                \"isAllowed\": false\r\n            },\r\n            {\r\n                \"id\": 102,\r\n                \"name\": \"COUNTRY\",\r\n                \"isAllowed\": true\r\n            },\r\n            {\r\n                \"id\": 103,\r\n                \"name\": \"MANUFACTURER\",\r\n                \"isAllowed\": false\r\n            }\r\n        ]\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://httpbin.org/post",
+					"protocol": "http",
+					"host": [
+						"httpbin",
+						"org"
+					],
+					"path": [
+						"post"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "10.Parse complex JSON Array",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const response = pm.response.json().json;\r",
+							"console.log(response);\r",
+							"\r",
+							"let filteredData = [];\r",
+							"\r",
+							"response.forEach(e =>\r",
+							"{\r",
+							"     e.filters.forEach(f =>\r",
+							"     { \r",
+							"        filteredData.push(f);\r",
+							"     })\r",
+							"});\r",
+							"console.log(filteredData);\r",
+							"\r",
+							"const countryData = filteredData.filter(e => e.name =='COUNTRY');\r",
+							"console.log(countryData);\r",
+							"\r",
+							"pm.test(\"country data test\" , function()\r",
+							"{\r",
+							"         pm.expect(countryData.length).to.be.eql(2); // Assuming there are 2 entries with 'COUNTRY' name\r",
+							"             countryData.forEach(e =>\r",
+							"          {\r",
+							"    pm.expect(e.isAllowed).to.be.eql(true);\r",
+							"    pm.expect(e.name).to.be.eql('COUNTRY');\r",
+							"          })\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[    {\r\n        \"companyId\": 10101,\r\n        \"regionId\": 36554,\r\n        \"filters\": [\r\n            {\r\n                \"id\": 101,\r\n                \"name\": \"VENDOR\",\r\n                \"isAllowed\": false\r\n            },\r\n            {\r\n                \"id\": 102,\r\n                \"name\": \"COUNTRY\",\r\n                \"isAllowed\": true\r\n            },\r\n            {\r\n                \"id\": 103,\r\n                \"name\": \"MANUFACTURER\",\r\n                \"isAllowed\": false\r\n            }\r\n        ]\r\n    },\r\n    {\r\n        \"companyId\": 10102,\r\n        \"regionId\": 36555,\r\n        \"filters\": [\r\n            {\r\n                \"id\": 101,\r\n                \"name\": \"VENDOR\",\r\n                \"isAllowed\": false\r\n            },\r\n            {\r\n                \"id\": 102,\r\n                \"name\": \"COUNTRY\",\r\n                \"isAllowed\": true\r\n            },\r\n            {\r\n                \"id\": 103,\r\n                \"name\": \"MANUFACTURER\",\r\n                \"isAllowed\": false\r\n            }\r\n        ]\r\n    },\r\n    {\r\n        \"companyId\": 10103,\r\n        \"regionId\": 36556,\r\n        \"filters\": [\r\n            {\r\n                \"id\": 104,\r\n                \"name\": \"CATEGORY\",\r\n                \"isAllowed\": true\r\n            },\r\n            {\r\n                \"id\": 105,\r\n                \"name\": \"BRAND\",\r\n                \"isAllowed\": false\r\n            },\r\n            {\r\n                \"id\": 106,\r\n                \"name\": \"TYPE\",\r\n                \"isAllowed\": true\r\n            }\r\n        ]\r\n    },\r\n    {\r\n        \"companyId\": 10104,\r\n        \"regionId\": 36557,\r\n        \"filters\": [\r\n            {\r\n                \"id\": 107,\r\n                \"name\": \"PRICE\",\r\n                \"isAllowed\": true\r\n            },\r\n            {\r\n                \"id\": 108,\r\n                \"name\": \"RATING\",\r\n                \"isAllowed\": false\r\n            },\r\n            {\r\n                \"id\": 109,\r\n                \"name\": \"AVAILABILITY\",\r\n                \"isAllowed\": true\r\n            }\r\n        ]\r\n    },\r\n    {\r\n        \"companyId\": 10105,\r\n        \"regionId\": 36558,\r\n        \"filters\": [\r\n            {\r\n                \"id\": 110,\r\n                \"name\": \"DISCOUNT\",\r\n                \"isAllowed\": true\r\n            },\r\n            {\r\n                \"id\": 111,\r\n                \"name\": \"PROMOTION\",\r\n                \"isAllowed\": false\r\n            },\r\n            {\r\n                \"id\": 112,\r\n                \"name\": \"NEW_ARRIVAL\",\r\n                \"isAllowed\": true\r\n            }\r\n        ]\r\n    }\r\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://httpbin.org/post",
+					"protocol": "http",
+					"host": [
+						"httpbin",
+						"org"
+					],
+					"path": [
+						"post"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

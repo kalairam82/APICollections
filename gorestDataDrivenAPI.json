@@ -1,0 +1,135 @@
+{
+	"info": {
+		"_postman_id": "88306759-6ef2-4f0e-92b2-f16be9e561a7",
+		"name": "gorestDataDrivenAPI",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "42767951"
+	},
+	"item": [
+		{
+			"name": "1. create a user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});    \r",
+							"pm.test(\"Your test name\", function () {\r",
+							"    const jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.name).to.eql(pm.iterationData.get(\"name\"));\r",
+							"    pm.expect(jsonData.gender).to.eql(pm.iterationData.get(\"gender\"));\r",
+							"    pm.expect(jsonData.status).to.eql(pm.iterationData.get(\"status\"));\r",
+							"   //fetch the email from request body (the random email that is generated)\r",
+							"    const JSONBody = pm.request.body.raw;\r",
+							"    //convert json to javaScript Object\r",
+							"    const BodyParsed = JSON.parse(JSONBody)\r",
+							"    const email = BodyParsed.email;\r",
+							"    console.log(\"The request email is: \" +email);\r",
+							"    pm.expect(jsonData.email).to.eql(email);\r",
+							"});\r",
+							"\r",
+							"const response = pm.response.json();\r",
+							"const user_id = response.id;\r",
+							"console.log(user_id)\r",
+							"pm.variables.set(\"userID\", user_id);\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{tokenID}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"{{name}}\",\r\n    \"email\": \"apiautomation_{{$randomEmail}}\",\r\n    \"gender\": \"{{gender}}\",\r\n    \"status\": \"{{status}}\"\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/public/v2/users/",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"public",
+						"v2",
+						"users",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "2. update a user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"pm.test(\"checking the put status\", function () {\r",
+							"    const response = pm.response.json();\r",
+							"    const actstatus = response.status;\r",
+							"    pm.expect(actstatus).to.eql(pm.iterationData.get(\"newstatus\"));\r",
+							"\r",
+							"   \r",
+							"});\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{tokenID}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"status\": \"{{newstatus}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/public/v2/users/{{userID}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"public",
+						"v2",
+						"users",
+						"{{userID}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
