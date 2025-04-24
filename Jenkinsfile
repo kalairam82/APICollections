@@ -40,14 +40,14 @@ pipeline {
             parallel {
                 stage('Run GoRest Tests') {
                     steps {
-                       bat 'docker run -v "%cd%\\newman:/app/results" kalairam82/gorestapi:1.0'
+                       bat 'docker run -v "%cd%\\newman:/app/newman" kalairam82/gorestapi:1.0'
                                         
                     }
                 }
                 
                 stage('Run Booking Tests') {
                     steps {
-                        bat 'docker run -v "%cd%\\newman:/app/results" kalairam82/bookingapi:1.0'
+                        bat 'docker run -v "%cd%\\newman:/app/newman" kalairam82/bookingapi:1.0'
 
                     }
                 }
