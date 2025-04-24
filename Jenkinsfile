@@ -58,7 +58,7 @@ pipeline {
                     steps { 
             publishHTML(target: [
                 allowMissing: false,
-                alwaysLinkToLastBuild: true,
+                alwaysLinkToLastBuild: false,
                 keepAll: true,
                 reportDir: 'newman',
                 reportFiles: 'gorest.html',
@@ -72,7 +72,7 @@ pipeline {
                     steps {    
                    publishHTML(target: [
                 allowMissing: false,
-                alwaysLinkToLastBuild: true,
+                alwaysLinkToLastBuild: false,
                 keepAll: true,
                 reportDir: 'newman',
                 reportFiles: 'booking.html',
